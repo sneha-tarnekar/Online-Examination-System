@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ExamMarksheet" language="groovy" pageWidth="690" pageHeight="485" orientation="Landscape" columnWidth="650" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a21c35f3-ee9b-4b45-868b-bd4d13cb7be3">
+	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="PieChartDataset" uuid="8a5fecfb-dd62-427a-9f21-509ac344158f"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     results.`created` AS results_created,
+     results.`marksObtained` AS results_marksObtained,
+     results.`result` AS results_result,
+     results.`totalMarks` AS results_totalMarks,
+     users.`id` AS users_id,
+     users.`classname` AS users_classname,
+     users.`name` AS users_name,
+     users.`phone` AS users_phone,
+     users.`dob` AS users_dob
+FROM
+     `users` users INNER JOIN `results` results ON users.`id` = results.`user_id`]]>
+	</queryString>
+	<field name="results_created" class="java.sql.Date"/>
+	<field name="results_marksObtained" class="java.lang.Integer"/>
+	<field name="results_result" class="java.lang.String"/>
+	<field name="results_totalMarks" class="java.lang.Integer"/>
+	<field name="users_id" class="java.lang.Integer"/>
+	<field name="users_classname" class="java.lang.String"/>
+	<field name="users_name" class="java.lang.String"/>
+	<field name="users_phone" class="java.lang.String"/>
+	<field name="users_dob" class="java.sql.Date"/>
+	<detail>
+		<band height="435" splitType="Stretch">
+			<staticText>
+				<reportElement x="80" y="18" width="476" height="78" forecolor="#000099" uuid="e8241430-4502-424a-aeb6-4978dead1f5a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Algerian" size="50" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICATE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="91" y="81" width="465" height="61" forecolor="#000099" uuid="f7388955-872a-4c95-8e33-96a008b7b31c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Algerian" size="32"/>
+				</textElement>
+				<text><![CDATA[of complition]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="155" y="189" width="313" height="35" forecolor="#CC0000" uuid="ddd3bbbb-2096-4e5f-abab-3109525923b9"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="CommercialScript BT" size="30" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{users_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="224" width="552" height="31" uuid="8a99be68-3695-42b8-8efb-3e818d325333"/>
+				<textElement textAlignment="Center">
+					<font fontName="Brush Script MT" size="22" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["for successfully completing  "+$F{users_classname}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="0" width="651" height="20" backcolor="#330066" uuid="4bd069b5-f6bc-4577-b830-eafc417bd318"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="415" width="651" height="20" backcolor="#330066" uuid="201523fe-a79e-4518-a946-871fd3790af2"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="0" width="21" height="415" backcolor="#330066" uuid="62f95526-780c-4794-8c59-100ad9687230"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="630" y="0" width="21" height="415" backcolor="#330066" uuid="b358408c-5689-4bae-a24f-5c9d2014aaee"/>
+			</rectangle>
+			<textField>
+				<reportElement x="44" y="255" width="553" height="27" uuid="08bf87cd-7f42-4605-a71f-20d097f61356"/>
+				<textElement textAlignment="Center">
+					<font fontName="Brush Script MT" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Exam dated on "+$F{results_created}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="33" y="282" width="581" height="53" uuid="84903283-72d5-4ce7-b50c-41f8999b16be"/>
+				<textElement textAlignment="Center">
+					<font fontName="Brush Script MT" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{results_result}+" with "+$F{results_marksObtained}+" out of  "+$F{results_totalMarks}+" marks"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="47" y="162" width="552" height="27" uuid="06a264a8-b0fe-44a3-b899-5b63a367ef3a"/>
+				<textElement textAlignment="Center">
+					<font fontName="Brush Script MT" size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[This certificate is awarded to]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="60" y="361" width="100" height="20" uuid="61098a44-c8d6-457a-a8fd-257e7379e213"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="60" y="381" width="100" height="20" uuid="98a1004b-9721-47d2-b096-085e4478e75d"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<line>
+				<reportElement x="60" y="380" width="100" height="1" uuid="7147a2a2-0c1c-4872-bf68-25553f43a40c"/>
+			</line>
+			<staticText>
+				<reportElement x="485" y="381" width="100" height="20" uuid="5cdf4e4a-1b9c-44ab-a7e3-5ab5710fd00e"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Signature]]></text>
+			</staticText>
+			<line>
+				<reportElement x="485" y="380" width="100" height="1" uuid="8345e8f0-049a-459f-b2c1-ec749ed8843e"/>
+			</line>
+			<image>
+				<reportElement x="527" y="20" width="58" height="55" uuid="9252299e-1961-494c-af00-90c6ba44df55"/>
+				<imageExpression><![CDATA["C:\\Users\\Sneha\\Documents\\NetBeansProjects\\OnlineExamination\\badge.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="47" y="20" width="128" height="128" uuid="0de47b7d-d5b0-4dd5-95aa-315e82adb6a0"/>
+				<imageExpression><![CDATA["Certificate.png"]]></imageExpression>
+			</image>
+		</band>
+	</detail>
+</jasperReport>
